@@ -12,6 +12,7 @@ func main() {
 	config.InicializarVariaveisAmbiente()
 	rotas := router.InicializarRotas()
 
-	fmt.Printf("CEP-API Iniciado na porta: %d\n", config.PORT_HTTP)
+	fmt.Printf("App frete-api Iniciada na porta: %d\n", config.PORT_HTTP)
+
 	http.ListenAndServe(fmt.Sprintf(":%d", config.PORT_HTTP), rotas)
 }

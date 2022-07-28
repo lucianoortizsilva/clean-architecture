@@ -1,0 +1,40 @@
+version: '3.9'
+
+services:
+  
+  service-mongodb:
+    container_name: container-mongodb
+    image: mongo
+    env_file:
+      - .env
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - .docker/frete-db:/data/db # Mapeando 'docker/frete-db'
+      - .docker/frete-db-log:/log # Mapeando 'docker/frete-db-log'
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+
+  service-frete-api:
+    container_name: frete-api-app
+    image : frete-api-app:latest    
+    build:
+      context: ./frete-api
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    entrypoint: ./entrypoint.sh
+    env_file:
+      - ./frete-api/.env
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  .docker:
