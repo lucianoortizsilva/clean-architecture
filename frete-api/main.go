@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/lucianoortizsilva/cep/cep-api/src/config"
-	"github.com/lucianoortizsilva/cep/cep-api/src/router"
+	"github.com/lucianoortizsilva/frete/frete-api/src/config"
+	"github.com/lucianoortizsilva/frete/frete-api/src/router"
 )
 
 func main() {
