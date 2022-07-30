@@ -4,15 +4,14 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/lucianoortizsilva/frete/frete-api/adapters/http/config"
-	"github.com/lucianoortizsilva/frete/frete-api/adapters/http/router"
+	"github.com/lucianoortizsilva/frete/frete-api/adapters/controllers/configuration"
 )
 
 func main() {
-	config.InicializarVariaveisAmbiente()
-	rotas := router.InicializarRotas()
+	configuration.LoadEnvHttp()
+	rotas := configuration.InicializarRotas()
 
-	fmt.Printf("App frete-api Iniciada na porta: %d\n", config.PORT_HTTP)
+	fmt.Printf("App frete-api Iniciada na porta: %d\n", configuration.PORT_HTTP)
 
-	http.ListenAndServe(fmt.Sprintf(":%d", config.PORT_HTTP), rotas)
+	http.ListenAndServe(fmt.Sprintf(":%d", configuration.PORT_HTTP), rotas)
 }
