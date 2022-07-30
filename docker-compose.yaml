@@ -6,13 +6,13 @@ services:
     container_name: container-mongodb
     image: mongo
     env_file:
-      - .env
+      - ./frete-api/adapters/.env
     environment:
       - PUID=1000
       - PGID=1000
     volumes:
-      - .docker/frete-db:/data/db # Mapeando 'docker/frete-db'
-      - .docker/frete-db-log:/log # Mapeando 'docker/frete-db-log'
+      - ./frete-api/drivers/.docker/mongodb/frete-db:/data/db # Mapeando 'docker/frete-db'
+      - ./frete-api/drivers/.docker/mongodb/frete-db-log:/log # Mapeando 'docker/frete-db-log'
     ports:
       - "27017:27017"
     networks:
@@ -28,7 +28,7 @@ services:
       - "8080:8080"
     entrypoint: ./entrypoint.sh
     env_file:
-      - ./frete-api/.env
+      - ./frete-api/adapters/.env
     networks:
       - app-network
 

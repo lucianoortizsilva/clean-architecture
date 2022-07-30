@@ -15,5 +15,6 @@
 # vendor/
 
 frete-api\vendor
+frete-api\adapters\driver\.docker
 
 .docker
