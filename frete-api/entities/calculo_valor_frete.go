@@ -13,16 +13,8 @@ func NewCalculoValorFrete() *CalculoValorFrete {
 
 func (consulta *CalculoValorFrete) Calcular() (float64, error) {
 
-	if consulta.Regiao == "NORTE" && consulta.PesoTotalPedido > 10 {
-		return 66.00, nil
-	}
-
 	if consulta.Regiao == "SUL" && consulta.PesoTotalPedido > 20 {
 		return 44.50, nil
-	}
-
-	if consulta.Regiao == "NORDESTE" && consulta.PesoTotalPedido > 15 {
-		return 77.00, nil
 	}
 
 	if consulta.Regiao == "SUDESTE" && consulta.PesoTotalPedido > 50 {
