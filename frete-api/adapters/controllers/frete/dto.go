@@ -24,6 +24,10 @@ func (dto *FreteDTO) Validar() error {
 		return errors.New("o pedidoId é obrigatório e não pode estar em branco")
 	}
 
+	if strings.TrimSpace(dto.Regiao) == "" {
+		return errors.New("A região é obrigatória e não pode estar em branco")
+	}
+
 	if strings.TrimSpace(dto.Cep) == "" {
 		return errors.New("o cep é obrigatório e não pode estar em branco")
 	}

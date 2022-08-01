@@ -7,6 +7,7 @@ import (
 
 	"github.com/lucianoortizsilva/frete/frete-api/adapters/controllers"
 	"github.com/lucianoortizsilva/frete/frete-api/adapters/mongodb"
+	"github.com/lucianoortizsilva/frete/frete-api/drivers"
 	"github.com/lucianoortizsilva/frete/frete-api/usecases"
 )
 
@@ -36,15 +37,29 @@ func (controller FreteController) SolicitarFrete(w http.ResponseWriter, r *http.
 		return
 	}
 
+	// Conectar no banco de dados mongodb
+	clientMongoDB, err := drivers.ConectarServidorMongoDB()
+	if err != nil {
+		controllers.Erro(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	repository := mongodb.NewSolicitaFreteDB(clientMongoDB)
+	useCaseSolicitaFrete := usecases.NewSolicitaFrete(repository)
+
 	var input usecases.SolicitaFreteDtoInput
-	input.Regiao = dto.Regiao
 	input.PesoTotalPedido = dto.PesoTotalPedido
+	input.PedidoId = dto.PedidoId
+	input.Codigo = dto.Codigo
+	input.Regiao = dto.Regiao
+	input.Cep = dto.Cep
 
-	var repository = mongodb.NewSolicitaFreteDB()
+	output, err := useCaseSolicitaFrete.Executar(input)
 
-	solicitaFrete := usecases.NewSolicitaFrete(repository)
+	if err == nil {
+		controllers.JSON(w, http.StatusCreated, output)
+	} else {
+		controllers.Erro(w, http.StatusConflict, err)
+	}
 
-	output, err := solicitaFrete.Executar(input)
-
-	controllers.JSON(w, http.StatusCreated, output)
 }

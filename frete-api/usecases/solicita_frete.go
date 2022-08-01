@@ -1,24 +1,30 @@
 package usecases
 
-import "github.com/lucianoortizsilva/frete/frete-api/entities"
-
-type SolicitaFreteRepository interface {
-	Salvar(Regiao string, PesoTotalPedido float64) error
-}
+import (
+	"github.com/lucianoortizsilva/frete/frete-api/entities"
+)
 
 type SolicitaFrete struct {
 	SolicitaFreteRepository SolicitaFreteRepository
 }
 
+type SolicitaFreteRepository interface {
+	Insert(Codigo string, PedidoId string, Regiao string, Cep string, PesoTotalPedido float64) error
+}
+
 type SolicitaFreteDtoInput struct {
-	Regiao          string
+	Codigo          string
+	PedidoId        string
 	PesoTotalPedido float64
+	Regiao          string
+	Cep             string
 }
 
 type SolicitaFreteDtoOutput struct {
-	ValorFrete             float64
-	StatusSolicitacaoFrete string
-	Erro                   string
+	Codigo     string  `json:"codigo,omitempty"`
+	ValorFrete float64 `json:"valorFrete,omitempty"`
+	Status     string  `json:"status,omitempty"`
+	Erro       string  `json:"erro,omitempty"`
 }
 
 func NewSolicitaFrete(solicitaFreteRepository SolicitaFreteRepository) *SolicitaFrete {
@@ -33,18 +39,23 @@ func (s *SolicitaFrete) Executar(input SolicitaFreteDtoInput) (SolicitaFreteDtoO
 	valorFreteCalculado, erro := calculoValorFrete.Calcular()
 
 	if erro == nil {
-		output := SolicitaFreteDtoOutput{
-			StatusSolicitacaoFrete: "APROVADO",
-			ValorFrete:             valorFreteCalculado,
+		erro := s.SolicitaFreteRepository.Insert(input.Codigo, input.PedidoId, input.Regiao, input.Cep, input.PesoTotalPedido)
+		if erro == nil {
+			return aprovado(input.Codigo, valorFreteCalculado)
+		} else {
+			return SolicitaFreteDtoOutput{}, erro
 		}
-		s.SolicitaFreteRepository.Salvar(calculoValorFrete.Regiao, calculoValorFrete.PesoTotalPedido)
-		return output, nil
 	} else {
-		output := SolicitaFreteDtoOutput{
-			StatusSolicitacaoFrete: "NEGADO",
-			Erro:                   erro.Error(),
-		}
-		return output, erro
+		return SolicitaFreteDtoOutput{}, erro
 	}
 
+}
+
+func aprovado(Codigo string, ValorFrete float64) (SolicitaFreteDtoOutput, error) {
+	output := SolicitaFreteDtoOutput{
+		Codigo:     Codigo,
+		Status:     "APROVADO",
+		ValorFrete: ValorFrete,
+	}
+	return output, nil
 }

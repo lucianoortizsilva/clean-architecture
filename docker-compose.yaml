@@ -6,7 +6,7 @@ services:
     container_name: container-mongodb
     image: mongo
     env_file:
-      - ./frete-api/adapters/.env
+      - ./frete-api/.env
     environment:
       - PUID=1000
       - PGID=1000
@@ -28,7 +28,7 @@ services:
       - "8080:8080"
     entrypoint: ./entrypoint.sh
     env_file:
-      - ./frete-api/adapters/.env
+      - ./frete-api/.env
     networks:
       - app-network
 
