@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/lucianoortizsilva/frete/frete-api/adapters/controllers"
-	"github.com/lucianoortizsilva/frete/frete-api/adapters/mongodb"
+	"github.com/lucianoortizsilva/frete/frete-api/adapters/repository"
 	"github.com/lucianoortizsilva/frete/frete-api/drivers"
 	"github.com/lucianoortizsilva/frete/frete-api/usecases"
 )
@@ -44,7 +44,7 @@ func (controller FreteController) SolicitarFrete(w http.ResponseWriter, r *http.
 		return
 	}
 
-	repository := mongodb.NewSolicitaFreteDB(clientMongoDB)
+	repository := repository.NewSolicitaFreteDB(clientMongoDB)
 	useCaseSolicitaFrete := usecases.NewSolicitaFrete(repository)
 
 	var input usecases.SolicitaFreteDtoInput

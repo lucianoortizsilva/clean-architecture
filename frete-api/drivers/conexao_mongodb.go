@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 
+	"github.com/lucianoortizsilva/frete/frete-api/drivers/configuration"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -12,9 +13,7 @@ var ctx = context.TODO()
 
 func ConectarServidorMongoDB() (*mongo.Client, error) {
 
-	var URL_CONEXAO_MONGODB = "mongodb://localhost:27017/frete-db"
-
-	clientOptions := options.Client().ApplyURI(URL_CONEXAO_MONGODB)
+	clientOptions := options.Client().ApplyURI(configuration.URL_CONEXAO_MONGODB)
 	client, err := mongo.Connect(ctx, clientOptions)
 
 	if err != nil {

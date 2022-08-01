@@ -10,6 +10,8 @@ COPY /entities /app/entities
 COPY /usecases /app/usecases
 
 COPY entrypoint.sh /app
+COPY _local.env /app
+COPY _docker.env /app
 COPY go.mod /app
 COPY go.sum /app
 COPY main.go /app

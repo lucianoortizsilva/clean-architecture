@@ -4,19 +4,15 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/lucianoortizsilva/frete/frete-api/adapters/controllers/configuration"
+	"github.com/lucianoortizsilva/frete/frete-api/adapters/controllers/routers"
 	"github.com/lucianoortizsilva/frete/frete-api/drivers"
+	"github.com/lucianoortizsilva/frete/frete-api/drivers/configuration"
 )
 
 func main() {
-
-	rotas := configuration.InicializarRotas()
-
+	configuration.CarregarVariaveisAmbiente()
 	drivers.ConectarServidorMongoDB()
-
-	var PORT_HTTP = 8080
-
-	fmt.Printf("App frete-api Iniciada na porta: %d\n", PORT_HTTP)
-
-	http.ListenAndServe(fmt.Sprintf(":%d", PORT_HTTP), rotas)
+	rotas := routers.InicializarRotas()
+	fmt.Printf("\nfrete-api Iniciada na porta: %d\n", configuration.PORT_HTTP)
+	http.ListenAndServe(fmt.Sprintf(":%d", configuration.PORT_HTTP), rotas)
 }
