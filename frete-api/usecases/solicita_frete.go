@@ -9,7 +9,7 @@ type SolicitaFrete struct {
 }
 
 type SolicitaFreteRepository interface {
-	Insert(PedidoId string, Regiao string, PesoTotalPedido float64) error
+	Insert(PedidoId string, Regiao string, PesoTotalPedido float64, valorFrete float64) error
 }
 
 type SolicitaFreteDtoInput struct {
@@ -37,7 +37,7 @@ func (s *SolicitaFrete) Executar(input SolicitaFreteDtoInput) (SolicitaFreteDtoO
 	valorFreteCalculado, erro := calculoValorFrete.Calcular()
 
 	if erro == nil {
-		erro := s.SolicitaFreteRepository.Insert(input.PedidoId, input.Regiao, input.PesoTotalPedido)
+		erro := s.SolicitaFreteRepository.Insert(input.PedidoId, input.Regiao, input.PesoTotalPedido, valorFreteCalculado)
 		if erro == nil {
 			return solicitado(input.PedidoId, valorFreteCalculado)
 		} else {
