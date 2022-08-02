@@ -50,9 +50,7 @@ func (controller FreteController) SolicitarFrete(w http.ResponseWriter, r *http.
 	var input usecases.SolicitaFreteDtoInput
 	input.PesoTotalPedido = dto.PesoTotalPedido
 	input.PedidoId = dto.PedidoId
-	input.Codigo = dto.Codigo
 	input.Regiao = dto.Regiao
-	input.Cep = dto.Cep
 
 	output, err := useCaseSolicitaFrete.Executar(input)
 

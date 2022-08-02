@@ -9,19 +9,17 @@ type SolicitaFrete struct {
 }
 
 type SolicitaFreteRepository interface {
-	Insert(Codigo string, PedidoId string, Regiao string, Cep string, PesoTotalPedido float64) error
+	Insert(PedidoId string, Regiao string, PesoTotalPedido float64) error
 }
 
 type SolicitaFreteDtoInput struct {
-	Codigo          string
 	PedidoId        string
 	PesoTotalPedido float64
 	Regiao          string
-	Cep             string
 }
 
 type SolicitaFreteDtoOutput struct {
-	Codigo     string  `json:"codigo,omitempty"`
+	PedidoId   string  `json:"pedidoId,omitempty"`
 	ValorFrete float64 `json:"valorFrete,omitempty"`
 	Status     string  `json:"status,omitempty"`
 	Erro       string  `json:"erro,omitempty"`
@@ -39,9 +37,9 @@ func (s *SolicitaFrete) Executar(input SolicitaFreteDtoInput) (SolicitaFreteDtoO
 	valorFreteCalculado, erro := calculoValorFrete.Calcular()
 
 	if erro == nil {
-		erro := s.SolicitaFreteRepository.Insert(input.Codigo, input.PedidoId, input.Regiao, input.Cep, input.PesoTotalPedido)
+		erro := s.SolicitaFreteRepository.Insert(input.PedidoId, input.Regiao, input.PesoTotalPedido)
 		if erro == nil {
-			return aprovado(input.Codigo, valorFreteCalculado)
+			return solicitado(input.PedidoId, valorFreteCalculado)
 		} else {
 			return SolicitaFreteDtoOutput{}, erro
 		}
@@ -51,11 +49,11 @@ func (s *SolicitaFrete) Executar(input SolicitaFreteDtoInput) (SolicitaFreteDtoO
 
 }
 
-func aprovado(Codigo string, ValorFrete float64) (SolicitaFreteDtoOutput, error) {
+func solicitado(PedidoId string, ValorFrete float64) (SolicitaFreteDtoOutput, error) {
 	output := SolicitaFreteDtoOutput{
-		Codigo:     Codigo,
-		Status:     "APROVADO",
+		PedidoId:   PedidoId,
 		ValorFrete: ValorFrete,
+		Status:     "SOLICITADO",
 	}
 	return output, nil
 }
