@@ -20,7 +20,7 @@ Estrutura das pastas do projeto [frete-api]:
 ![](https://github.com/lucianoortizsilva/clean-architecture/blob/main/static/clean-architecture.jpg?raw=true)
 
 ### Como rodar
-- Execute na raiz do projeto o comando `docker-compose up`
+- Execute na raiz do repositório o comando `docker-compose up`
 
 - Para extrair, trasformar e carregar os dados:
 Acesse a API GET: ` http://localhost:8080/v1/fretes`
