@@ -20,6 +20,7 @@ Estrutura das pastas do projeto [frete-api]:
 ![](https://github.com/lucianoortizsilva/clean-architecture/blob/main/static/clean-architecture.jpg?raw=true)
 
 ### Como rodar
+- Pré-requisito: Docker instalado e iniciado.
 - Execute na raiz do repositório o comando `docker-compose up`
 
 - Para extrair, trasformar e carregar os dados:
