@@ -24,8 +24,8 @@ Estrutura das pastas do projeto [frete-api]:
 - Execute na raiz do repositório o comando `docker-compose up`
 
 - Para extrair, trasformar e carregar os dados:
-Acesse a API GET: ` http://localhost:8080/v1/fretes`
-
+Acesse a API POST: ` http://localhost:8080/v1/fretes` \
+Body:\
 ```json
 {
 	"pedidoId": "12345",
